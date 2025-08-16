@@ -45,7 +45,8 @@ on:
          type: boolean
       
        
-
+env:
+  REPO_MANIFEST: oneplus_ace5_ultra   # 不要带 .xml
 
 jobs:
   build:
