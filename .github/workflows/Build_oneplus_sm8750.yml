@@ -502,13 +502,14 @@ jobs:
 
       - name: Apply patch_linux and replace Image
         run: |
-          cd kernel_workspace/kernel_platform/common
+          cd ./AnyKernel3
           curl -LO --retry 5 --retry-delay 2 --retry-connrefused https://raw.githubusercontent.com/Numbersf/Action-Build/SukiSU-Ultra/patches/patch_linux
           chmod +x patch_linux
           ./patch_linux
+          rm -f patch_linux
           rm -f Image
           mv oImage Image
-          cp Image $GITHUB_WORKSPACE/AnyKernel3/Image
+#          cp Image $GITHUB_WORKSPACE/AnyKernel3/Image
 
 
 
