@@ -199,7 +199,6 @@ jobs:
           fi
           ./setup.bin
 
-
       - name: 🔧 Cache HMBird patch (缓存HMBird补丁)
         uses: actions/cache@v3
         with:
@@ -207,7 +206,7 @@ jobs:
           key: hmbird-patch-v1
           restore-keys: |
             hmbird-patch-v1
-            
+    
 
       - name: 🔧 Apply HMBird GKI patch (写入单Boot开机补丁)
         run: |
