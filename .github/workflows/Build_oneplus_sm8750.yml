@@ -344,11 +344,75 @@ jobs:
           ENABLE_B: ${{ github.event.inputs.enable_feature_b }}
         run: |
           cd kernel_workspace/kernel_platform
-          cp "${GITHUB_WORKSPACE}/.github/workflows/Bin/main.bin" ./
-          chmod +x main.bin
-          ./main.bin "setup_gki_config"
-          rm -rf ./main.bin
-          #Remove check_defconfig
+          CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
+          KERNEL_VERSION="${{ env.KERNEL_VERSION }}"
+
+          # SukiSU Ultra配置
+          echo "CONFIG_KSU=y" >> "$CONFIG_FILE"
+
+          # KPM配置
+          if [ "${{ github.event.inputs.KPM }}" = "true" ]; then
+            echo "CONFIG_KPM=y" >> "$CONFIG_FILE"
+          fi
+
+          # HOOK配置
+      
+          echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_MANUAL_HOOK=y" >> "$CONFIG_FILE"
+  
+
+          # SUSFS配置
+          echo "CONFIG_KSU_SUSFS=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=n" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_ENABLE_LOG=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> "$CONFIG_FILE"
+          echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> "$CONFIG_FILE"
+
+          # TMPFS配置*
+          echo "CONFIG_TMPFS_XATTR=y" >> "$CONFIG_FILE"
+          echo "CONFIG_TMPFS_POSIX_ACL=y" >> "$CONFIG_FILE"
+
+          # BBR配置*
+          echo "CONFIG_TCP_CONG_ADVANCED=y" >> "$CONFIG_FILE"
+          echo "CONFIG_TCP_CONG_BBR=y" >> "$CONFIG_FILE"
+          echo "CONFIG_NET_SCH_FQ=y" >> "$CONFIG_FILE"
+          echo "CONFIG_TCP_CONG_BIC=n" >> "$CONFIG_FILE"
+          echo "CONFIG_TCP_CONG_WESTWOOD=n" >> "$CONFIG_FILE"
+          echo "CONFIG_TCP_CONG_HTCP=n" >> "$CONFIG_FILE"
+
+          # ECN配置*
+          echo "CONFIG_IP_ECN=y" >> "$CONFIG_FILE"
+          echo "CONFIG_TCP_ECN=y" >> "$CONFIG_FILE"
+          echo "CONFIG_IPV6_ECN=y" >> "$CONFIG_FILE"
+          echo "CONFIG_IP_NF_TARGET_ECN=y" >> "$CONFIG_FILE"
+
+          # ZRAM配置*
+#          if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
+          echo "CONFIG_CRYPTO_LZ4HC=y" >> "$CONFIG_FILE"
+          echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
+          echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
+          echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
+          echo "CONFIG_CRYPTO_LZ4K_OPLUS=y" >> "$CONFIG_FILE"
+#          echo "CONFIG_ZRAM_WRITEBACK=y" >> "$CONFIG_FILE"
+#          fi
+
+          # LZ4 1.10.0
+          echo "CONFIG_LZ4V2_COMPRESS=y" >> "$CONFIG_FILE"
+          echo "CONFIG_LZ4V2_HC=y" >> "$CONFIG_FILE"
+          echo "CONFIG_LZ4V2_DEBUG=n" >> "$CONFIG_FILE"
+#          if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
+#            echo "CONFIG_ZRAM_LZ4V2=y" >> "$CONFIG_FILE"
+#          fi
           sudo sed -i 's/check_defconfig//' ./common/build.config.gki
           cd common
           git add -A && git commit -a -m "BUILD Kernel"
