@@ -198,6 +198,7 @@ jobs:
               exit 1
             fi
             ./setup.bin
+
       - name: 🔧 Set up SUSFS (配置 SUSFS)
         run: |
            cd kernel_workspace
