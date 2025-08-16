@@ -59,6 +59,7 @@ jobs:
         run: |
           echo "构建前磁盘空间："
           df -h
+          export REPO_MANIFEST="${{ github.event.inputs.REPO_MANIFEST }}"
       
 #      - name: ⚙️ Set REPO_MANIFEST (设置对应机型配置文件)
 #        id: set_manifest
