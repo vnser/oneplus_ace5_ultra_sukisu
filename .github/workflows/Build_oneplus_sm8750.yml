@@ -60,13 +60,13 @@ jobs:
           echo "构建前磁盘空间："
           df -h
       
-      - name: ⚙️ Set REPO_MANIFEST (设置对应机型配置文件)
-        id: set_manifest
-        run: |
-          cp "${GITHUB_WORKSPACE}/.github/workflows/Bin/main.bin" ./
-          chmod +x main.bin
-          ./main.bin "setup_device_info" "${{ github.event.inputs.REPO_MANIFEST }}"
-          rm -rf ./main.bin
+#      - name: ⚙️ Set REPO_MANIFEST (设置对应机型配置文件)
+#        id: set_manifest
+#        run: |
+#          cp "${GITHUB_WORKSPACE}/.github/workflows/Bin/main.bin" ./
+#          chmod +x main.bin
+#          ./main.bin "setup_device_info" "${{ github.event.inputs.REPO_MANIFEST }}"
+#          rm -rf ./main.bin
           
       - name: ⚙️ Set KERNEL_TIME (设置构建时间)
         id: set_kernel_time
