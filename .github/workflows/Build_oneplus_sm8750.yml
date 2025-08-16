@@ -223,20 +223,20 @@ jobs:
           
           LZ4_VERSION="1.10.0"
           LZ4_DOWNLOAD_URL="https://github.com/lz4/lz4/archive/refs/tags/v${LZ4_VERSION}.tar.gz"
-    #                            cd kernel_workspace/kernel_platform/common
+
           mkdir -p lz4_temp && cd lz4_temp
           echo "下载LZ4 ${LZ4_VERSION}源码..."
           curl -Ls "${LZ4_DOWNLOAD_URL}" -o lz4.tar.gz
           tar -zxf lz4.tar.gz --strip-components=1
           
-          # 复制文件并使用独立命名，避免与LZ4K冲突
+
           echo "复制LZ4文件到内核目录..."
-    # 源码 件（添加"lz4v2_"前缀）
+
           cp lib/lz4.c ../lib/lz4v2_core.c
           cp lib/lz4.h ../lib/lz4v2_core.h
           cp lib/lz4hc.c ../lib/lz4v2_hc.c
           cp lib/lz4hc.h ../lib/lz4v2_hc.h
-    # 头文 （放在独立路径）
+
           mkdir -p ../include/linux/lz4v2
           cp lib/lz4.h ../include/linux/lz4v2/lz4.h
           cp lib/lz4hc.h ../include/linux/lz4v2/lz4hc.h
