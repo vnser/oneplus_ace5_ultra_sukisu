@@ -555,16 +555,7 @@ jobs:
           rm -f patch_linux
           rm -f Image
           mv oImage Image
-#          cp Image $GITHUB_WORKSPACE/AnyKernel3/Image
 
-
-
-#      - name: 📦 Make AnyKernel3 (创建Anykernel3)
-#        run: |
-#          cp "${GITHUB_WORKSPACE}/.github/workflows/Bin/main.bin" ./
-#          chmod +x main.bin
-#          ./main.bin "make_anykernel3"
-#          rm -rf ./main.bin
 
       - name: 📤 Upload AnyKernel3 (上传 Anykernel3)
         uses: actions/upload-artifact@v4
