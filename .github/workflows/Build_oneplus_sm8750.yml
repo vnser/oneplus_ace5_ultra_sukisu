@@ -185,7 +185,7 @@ jobs:
           CUSTOM_TAG="vring"
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s "97e1250d"
           cd KernelSU
-          KSU_API_VERSION=$(cat kernel/Makefile" | \
+          KSU_API_VERSION=$(cat "kernel/Makefile" | \
             grep -m1 "KSU_VERSION_API :=" | awk -F'= ' '{print $2}' | tr -d '[:space:]')
 
           if [[ -z "$KSU_API_VERSION" || "$(printf '%s\n' "$KSU_API_VERSION" "3.1.7" | sort -V | head -n1)" != "3.1.7" ]]; then
