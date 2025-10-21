@@ -183,7 +183,6 @@ jobs:
           
           BRANCH_NAME="susfs-main"
           CUSTOM_TAG="vring"
-#          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/susfs-main/kernel/setup.sh" -o setup.sh && bash setup.sh -s 97e1250d
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s "97e1250d"
           cd KernelSU
           KSU_API_VERSION=$(cat kernel/Makefile" | \
@@ -379,7 +378,6 @@ jobs:
           echo "HMBird补丁应用完成"
 
       - name: Apply LSM_BBG
-        if: ${{ inputs.LSM }}
         run: |
           cd kernel_workspace/kernel_platform/common
           echo "正在启用内核级基带保护支持…"
